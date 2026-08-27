@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Misisko 💚</title>
+
+    <style>
+        @import url("[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&display=swap)");
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --dark-green: #063d2b;
+            --green: #0b6b4d;
+            --light-green: #7fffc4;
+            --cream: #fff9e8;
+            --pink: #ff6584;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: white;
+            font-family: "Poppins", sans-serif;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(83, 255, 180, 0.25), transparent 30%),
+                radial-gradient(circle at 80% 75%, rgba(255, 101, 132, 0.18), transparent 28%),
+                linear-gradient(135deg, #021f16, var(--dark-green), var(--green));
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.18;
+            background-image:
+                radial-gradient(circle, #ffffff 1px, transparent 1px);
+            background-size: 35px 35px;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .intro {
+            text-align: center;
+            max-width: 750px;
+            animation: enter 1.2s ease;
+        }
+
+        .tiny-text {
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-size: 0.75rem;
+            color: var(--light-green);
+            margin-bottom: 15px;
+        }
+
+        .intro h1 {
+            font-family: "Dancing Script", cursive;
+            font-size: clamp(4rem, 14vw, 9rem);
+            line-height: 1;
+            text-shadow:
+                0 0 10px rgba(127, 255, 196, 0.55),
+                0 0 35px rgba(127, 255, 196, 0.3);
+        }
+
+        .intro .heart {
+            display: inline-block;
+            color: var(--pink);
+            font-size: 3rem;
+            animation: heartbeat 1.2s infinite;
+        }
+
+        .subtitle {
+            margin: 22px auto 32px;
+            max-width: 540px;
+            color: #d9ffed;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .love-button {
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 999px;
+            padding: 16px 42px;
+            color: #063d2b;
+            background: linear-gradient(135deg, #ffffff, var(--light-green));
+            font-family: "Poppins", sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            cursor: pointer;
+            box-shadow:
+                0 12px 35px rgba(0, 0, 0, 0.3),
+                0 0 25px rgba(127, 255, 196, 0.25);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .love-button:hover {
+            transform: translateY(-4px) scale(1.04);
+            box-shadow:
+                0 18px 45px rgba(0, 0, 0, 0.35),
+                0 0 35px rgba(127, 255, 196, 0.45);
+        }
+
+        .love-button:active {
+            transform: scale(0.96);
+        }
+
+        .message-section {
+            display: none;
+            width: 100%;
+            opacity: 0;
+        }
+
+        .message-section.show {
+            display: grid;
+            place-items: center;
+            animation: reveal 1.4s ease forwards;
+        }
+
+        .letter {
+            width: min(720px, 100%);
+            padding: clamp(28px, 6vw, 55px);
+            color: #17392d;
+            background: rgba(255, 249, 232, 0.96);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 28px;
+            position: relative;
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.4),
+                inset 0 0 35px rgba(11, 107, 77, 0.08);
+        }
+
+        .letter::before,
+        .letter::after {
+            content: "♥";
+            position: absolute;
+            color: rgba(255, 101, 132, 0.25);
+            font-size: 4rem;
+        }
+
+        .letter::before {
+            top: 8px;
+            left: 18px;
+            transform: rotate(-15deg);
+        }
+
+        .letter::after {
+            right: 18px;
+            bottom: 8px;
+            transform: rotate(15deg);
+        }
+
+        .letter h2 {
+            text-align: center;
+            color: var(--green);
+            font-family: "Dancing Script", cursive;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            margin-bottom: 25px;
+        }
+
+        .message {
+            min-height: 250px;
+            white-space: pre-line;
+            font-family: "Dancing Script", cursive;
+            font-size: clamp(1.35rem, 3.5vw, 1.8rem);
+            line-height: 1.65;
+        }
+
+        .signature {
+            display: none;
+            text-align: right;
+            margin-top: 30px;
+            color: var(--green);
+            font-family: "Dancing Script", cursive;
+            font-size: 1.7rem;
+            font-weight: 700;
+        }
+
+        .signature.show {
+            display: block;
+            animation: enter 1s ease;
+        }
+
+        .floating-heart {
+            position: fixed;
+            z-index: 10;
+            bottom: -60px;
+            pointer-events: none;
+            color: var(--pink);
+            text-shadow: 0 0 15px rgba(255, 101, 132, 0.8);
+            animation: floatUp linear forwards;
+        }
+
+        .spark {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            z-index: 11;
+            pointer-events: none;
+            border-radius: 50%;
+            animation: explode 1.3s ease-out forwards;
+        }
+
+        @keyframes enter {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes reveal {
+            from {
+                opacity: 0;
+                transform: scale(0.7) rotate(-3deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0);
+            }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            15% {
+                transform: scale(1.25);
+            }
+            30% {
+                transform: scale(1);
+            }
+            45% {
+                transform: scale(1.18);
+            }
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(0) rotate(0deg) scale(0.5);
+            }
+            15% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-115vh) rotate(360deg) scale(1.5);
+            }
+        }
+
+        @keyframes explode {
+            from {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform:
+                    translate(var(--move-x), var(--move-y))
+                    scale(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page {
+                padding: 18px;
+            }
+
+            .letter {
+                border-radius: 20px;
+            }
+
+            .tiny-text {
+                letter-spacing: 3px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <section class="page" id="introPage">
+            <div class="intro">
+                <p class="tiny-text">A little surprise made with love</p>
+
+                <h1>
+                    Misisko
+                    <span class="heart">♥</span>
+                </h1>
+
+                <p class="subtitle">
+                    I made something from my heart, especially for the woman
+                    who makes my world brighter.
+                </p>
+
+                <button class="love-button" id="loveButton">
+                    LOVE ♥
+                </button>
+            </div>
+        </section>
+
+        <section class="page message-section" id="messagePage">
+            <article class="letter">
+                <h2>To My Misisko</h2>
+
+                <div class="message" id="typedMessage"></div>
+
+                <p class="signature" id="signature">
+                    From your man,<br>
+                    who will always be proud of you<br>
+                    and love every part of you. ♥
+                </p>
+            </article>
+        </section>
+    </main>
+
+    <script>
+        const loveButton = document.getElementById("loveButton");
+        const introPage = document.getElementById("introPage");
+        const messagePage = document.getElementById("messagePage");
+        const typedMessage = document.getElementById("typedMessage");
+        const signature = document.getElementById("signature");
+
+        const romanticMessage = `Hi, Misisko.
+
+I hope you appreciate this little surprise I made for you. It may be simple, but every part of it comes straight from my heart.
+
+I want you to know that you are the only one who holds my heart, Misisko. Thank you for everything, and most especially, thank you for giving me a chance to love you. I hope we continue to grow together, support each other, and build a beautiful future side by side.
+
+While writing this message, a small tear fell from my eye because I realized just how deeply grateful I am to have you in my life.
+
+I love you, Misisko - my endgame, my future wife, my one and only, my greatest teammate, and my CPA. I will always be proud of you and love every single part of who you are.
+
+I love you, always.`;
+
+        loveButton.addEventListener("click", function () {
+            createExplosion(
+                window.innerWidth / 2,
+                window.innerHeight / 2
+            );
+
+            createHeartRain();
+
+            setTimeout(function () {
+                introPage.style.display = "none";
+                messagePage.classList.add("show");
+                typeMessage();
+            }, 900);
+        });
+
+        function typeMessage() {
+            let index = 0;
+            const typingSpeed = 28;
+
+            function typeNextCharacter() {
+                if (index < romanticMessage.length) {
+                    typedMessage.textContent += romanticMessage.charAt(index);
+                    index++;
+
+                    window.scrollTo({
+                        top: document.body.scrollHeight,
+                        behavior: "smooth"
+                    });
+
+                    setTimeout(typeNextCharacter, typingSpeed);
+                } else {
+                    signature.classList.add("show");
+                    createHeartRain();
+                }
+            }
+
+            typeNextCharacter();
+        }
+
+        function createHeartRain() {
+            const heartSymbols = ["♥", "♡", "💚", "💕"];
+
+            for (let i = 0; i < 45; i++) {
+                setTimeout(function () {
+                    const heart = document.createElement("div");
+                    heart.className = "floating-heart";
+
+                    heart.textContent =
+                        heartSymbols[
+                            Math.floor(Math.random() * heartSymbols.length)
+                        ];
+
+                    heart.style.left = Math.random() * 100 + "vw";
+                    heart.style.fontSize =
+                        Math.random() * 24 + 16 + "px";
+                    heart.style.animationDuration =
+                        Math.random() * 3 + 4 + "s";
+
+                    document.body.appendChild(heart);
+
+                    setTimeout(function () {
+                        heart.remove();
+                    }, 7500);
+                }, i * 80);
+            }
+        }
+
+        function createExplosion(x, y) {
+            const colors = [
+                "#7fffc4",
+                "#ffffff",
+                "#ff6584",
+                "#ffe66d"
+            ];
+
+            for (let i = 0; i < 70; i++) {
+                const spark = document.createElement("span");
+                spark.className = "spark";
+
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 280 + 60;
+
+                spark.style.left = x + "px";
+                spark.style.top = y + "px";
+                spark.style.background =
+                    colors[Math.floor(Math.random() * colors.length)];
+
+                spark.style.setProperty(
+                    "--move-x",
+                    Math.cos(angle) * distance + "px"
+                );
+
+                spark.style.setProperty(
+                    "--move-y",
+                    Math.sin(angle) * distance + "px"
+                );
+
+                document.body.appendChild(spark);
+
+                setTimeout(function () {
+                    spark.remove();
+                }, 1400);
+            }
+        }
+    </script>
+</body>
+</html>
